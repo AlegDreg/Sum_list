@@ -51,17 +51,31 @@ namespace ConsoleApp1
 
                 bool z = Int32.TryParse(k[s], out it);
 
-                if (z)
+                if (z && it >=0 && it < 10)
                 {
-
                     lines += k[s] + ",";
                 }
             }
+            bool isUnc = false;
 
             if (lines[lines.Length - 1] == ',')
             {
                 lines = lines.Remove(lines.Length - 1);
+                isUnc = true;
             }
+
+            if(lines[0] == '0')
+            {
+                lines = lines.Remove(0,2);
+                isUnc = true;
+            }
+
+            if (isUnc)
+                Console.WriteLine("Были удалены некорректные значения! Полученная строка - " + lines+"\n");
+
+            if (lines.Length > 199)
+                return "";
+
             return lines;
                 
         }
@@ -114,22 +128,32 @@ namespace ConsoleApp1
             string v = "";
             int count = 0;
 
-            while(z>0)
+            if (z != 0)
             {
-                count++;
-                int k = z % 10;
-                v += k;
-                z = (z- z% 10) / 10;
+                while (z > 0)
+                {
+                    count++;
+                    int k = z % 10;
+                    v += k;
+                    z = (z - z % 10) / 10;
 
+                    Third.Add(new ListNode
+                    {
+                        val = Convert.ToInt32(k)
+                    });
+
+                    if (count > 1)
+                    {
+                        Third[Third.Count - 2].next = Third[Third.Count - 1];
+                    }
+                }
+            }
+            else
+            {
                 Third.Add(new ListNode
                 {
-                    val = Convert.ToInt32(k)
+                    val = 0
                 });
-
-                if (count > 1)
-                {
-                    Third[Third.Count - 2].next = Third[Third.Count - 1];
-                }
             }
         }
 
