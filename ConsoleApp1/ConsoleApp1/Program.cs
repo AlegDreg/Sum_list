@@ -45,21 +45,22 @@ namespace ConsoleApp1
 
             string lines = "";
 
-            for(int s = 0; s < k.Length; s++)
+            for (int s = 0; s < k.Length; s++)
             {
                 int it;
 
                 bool z = Int32.TryParse(k[s], out it);
 
-                if(z)
+                if (z)
                 {
-                    if (s < k.Length - 2)
-                    {
-                        lines += k[s] + ",";
-                    }
-                    else
-                        lines += k[s];
+
+                    lines += k[s] + ",";
                 }
+            }
+
+            if (lines[lines.Length - 1] == ',')
+            {
+                lines = lines.Remove(lines.Length - 1);
             }
             return lines;
                 
