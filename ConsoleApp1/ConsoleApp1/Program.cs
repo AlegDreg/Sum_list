@@ -1,163 +1,93 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace ConsoleApp1
 {
-    class Program
+    public class Solution
     {
-        static public List<ListNode> fir_list { get; private set; }
-        static public List<ListNode> Sec_list { get; private set; }
-        static public List<ListNode> Third { get; private set; }
-
-        static void Main(string[] args)
+        static public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
         {
-            fir_list = new List<ListNode>();
-            Sec_list = new List<ListNode>();
-            Third = new List<ListNode>();
-
-            Console.Write("Введите l1 = ");
-            string s1 = Delete_non_correct_items(Console.ReadLine().Replace(" ",""));
-
-            Console.Write("\nВведите l2 = ");
-            string s2 = Delete_non_correct_items(Console.ReadLine().Replace(" ",""));
-
-            if(s1=="" || s2 =="")
-            {
-                Console.WriteLine("Некорректные значения!\n");
-                Main(args);
-                return;
-            }
-
-            Add_elements(s1.Split(new char[] { ',' }), fir_list);
-
-            Add_elements(s2.Split(new char[] { ',' }), Sec_list);
-
-            AddTwoNombers(fir_list, Sec_list);
-
-            Print(Third);
-
-            Console.ReadKey();
+            return AddTwo(Get_list_from_listnode(l1,""), Get_list_from_listnode(l2,""))[0];
         }
 
-        static string Delete_non_correct_items(string line)
+        static public string Get_list_from_listnode(ListNode l, string sum)
         {
-            string[] k = line.Split(new char[] { ',' });
+            string z = l.val.ToString();
 
-            string lines = "";
+            sum += z;
 
-            for (int s = 0; s < k.Length; s++)
-            {
-                int it;
+            if (l.next != null)
+                return Get_list_from_listnode(l.next, sum);
 
-                bool z = Int32.TryParse(k[s], out it);
-
-                if (z && it >=0 && it < 10)
-                {
-                    lines += k[s] + ",";
-                }
-            }
-            bool isUnc = false;
-
-            if (lines[lines.Length - 1] == ',')
-            {
-                lines = lines.Remove(lines.Length - 1);
-                isUnc = true;
-            }
-
-            if(lines[0] == '0')
-            {
-                lines = lines.Remove(0,2);
-                isUnc = true;
-            }
-
-            if (isUnc)
-                Console.WriteLine("Были удалены некорректные значения! Полученная строка - " + lines+"\n");
-
-            if (lines.Length > 199)
-                return "";
-
-            return lines;
-                
+            return sum;
         }
 
-        static void Print(List<ListNode> lists)
+        static public List<ListNode> AddTwo(string l1, string l2)
         {
-            Console.Write("Вывод - ");
-            foreach (ListNode list in lists)
-            {
-                Console.Write(list.val + " ");
-            }
-
-        }
-
-        static void Add_elements(string[] mas, List<ListNode> list)
-        {
-            for (int l = 0; l < mas.Length; l++)
-            {
-                if (!isCorrect_item(mas[l]))
-                    continue;
-
-                list.Add(new ListNode
-                {
-                    val = Convert.ToInt32(mas[l])
-                });
-
-                if (l > 0)
-                {
-                    list[list.Count - 2].next = list[list.Count - 1];
-                }
-            }
-        }
-
-        static bool isCorrect_item(string item)
-        {
-            if (item == "" || Convert.ToInt32(item) < 0 || Convert.ToInt32(item) > 9)
-                return false;
-            else return true;
-        }
-
-        static void AddTwoNombers(List<ListNode> l1, List<ListNode> l2)
-        {
-            string one = Get_sum(l1);
-            string two = Get_sum(l2);
-
-            int z = Convert.ToInt32(one) + Convert.ToInt32(two);
-
-            Console.WriteLine($"Сумма - ({z})");
-
-            string v = "";
             int count = 0;
 
-            if (z != 0)
+            int max_l = 0;
+
+            if (l1.Length > l2.Length)
+                max_l = l1.Length;
+            else max_l = l2.Length;
+
+            string integer = "";
+            int g = 0;
+
+            for (int i = 0; i < max_l; i++)
             {
-                while (z > 0)
+                int helper = 0;
+
+                helper += g;
+                g = 0;
+
+                if (i < l1.Length)
+                    helper += Convert.ToInt32(l1[i].ToString());
+                if (i < l2.Length)
+                    helper += Convert.ToInt32(l2[i].ToString());
+
+                if (helper > 9)
                 {
-                    count++;
-                    int k = z % 10;
-                    v += k;
-                    z = (z - z % 10) / 10;
-
-                    Third.Add(new ListNode
-                    {
-                        val = Convert.ToInt32(k)
-                    });
-
-                    if (count > 1)
-                    {
-                        Third[Third.Count - 2].next = Third[Third.Count - 1];
-                    }
+                    g = Convert.ToInt32(helper.ToString()[0].ToString());
+                    integer += helper.ToString()[1].ToString();
                 }
+                else
+                {
+                    g = 0;
+                    integer += helper.ToString()[0].ToString();
+                }
+
+                if (i == max_l-1 && g != 0)
+                    integer += g;
             }
-            else
+
+            return Get_list(integer);
+        }
+
+        static public List<ListNode> Get_list(string sum)
+        {
+            List<ListNode> Third = new List<ListNode>();
+            
+            Third.Add(new ListNode
+            {
+                val = Convert.ToInt32(sum[0].ToString())
+            });
+
+            for (int i = 1; i < sum.Length; i++)
             {
                 Third.Add(new ListNode
                 {
-                    val = 0
+                    val = Convert.ToInt32(sum[i].ToString())
                 });
+
+                Third[i - 1].next = Third[i];
             }
+
+            return Third;
         }
 
-        static string Get_sum(List<ListNode> lists)
+        static public string Get_sum(List<ListNode> lists)
         {
             string s = "";
             for (int j = lists.Count - 1; j > -1; j--)
