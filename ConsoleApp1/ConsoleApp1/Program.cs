@@ -5,12 +5,12 @@ namespace ConsoleApp1
 {
     public class Solution
     {
-        static public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
         {
             return AddTwo(Get_list_from_listnode(l1,""), Get_list_from_listnode(l2,""))[0];
         }
 
-        static public string Get_list_from_listnode(ListNode l, string sum)
+        public string Get_list_from_listnode(ListNode l, string sum)
         {
             string z = l.val.ToString();
 
@@ -22,7 +22,7 @@ namespace ConsoleApp1
             return sum;
         }
 
-        static public List<ListNode> AddTwo(string l1, string l2)
+        public List<ListNode> AddTwo(string l1, string l2)
         {
             int count = 0;
 
@@ -65,7 +65,7 @@ namespace ConsoleApp1
             return Get_list(integer);
         }
 
-        static public List<ListNode> Get_list(string sum)
+        public List<ListNode> Get_list(string sum)
         {
             List<ListNode> Third = new List<ListNode>();
             
@@ -87,7 +87,7 @@ namespace ConsoleApp1
             return Third;
         }
 
-        static public string Get_sum(List<ListNode> lists)
+        public string Get_sum(List<ListNode> lists)
         {
             string s = "";
             for (int j = lists.Count - 1; j > -1; j--)
