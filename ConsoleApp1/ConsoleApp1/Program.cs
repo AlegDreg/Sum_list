@@ -1,10 +1,20 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ConsoleApp1
 {
     public class Solution
     {
+        public void Main()
+        {
+            ListNode l1 = new ListNode(val: 2, next: new ListNode(val:4, next: new ListNode(val: 9)));
+            ListNode l2 = new ListNode(val: 5, next: new ListNode(val: 6, next: new ListNode(val: 4, next: new ListNode(val: 9))));
+
+            ListNode list = AddTwoNumbers(l1, l2);
+
+            Console.ReadKey();
+        }
+
         public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
         {
             return AddTwo(Get_list_from_listnode(l1,""), Get_list_from_listnode(l2,""))[0];
